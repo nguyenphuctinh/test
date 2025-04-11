@@ -1,37 +1,40 @@
 pipeline {
-    agent { 
-        node {
-            label 'docker-agent-python'
-            }
-      }
-    triggers {
-        pollSCM '* * * * *'
+    agent any
+
+    environment {
+        VENV_DIR = 'myapp/venv'
     }
+
     stages {
         stage('Build') {
             steps {
-                echo "Building.."
+                echo '🔧 Setting up Python environment...'
                 sh '''
-                cd myapp
-                pip install -r requirements.txt
+                    cd myapp
+                    python3 -m venv venv
+                    . venv/bin/activate
+                    pip install -r requirements.txt
                 '''
             }
         }
+
         stage('Test') {
             steps {
-                echo "Testing.."
+                echo '🧪 Running tests...'
                 sh '''
-                cd myapp
-                python3 hello.py
-                python3 hello.py --name=Brad
+                    cd myapp
+                    . venv/bin/activate
+                    python3 hello.py
+                    python3 hello.py --name=Brad
                 '''
             }
         }
+
         stage('Deliver') {
             steps {
-                echo 'Deliver....'
+                echo '📦 Delivering...'
                 sh '''
-                echo "doing delivery stuff.."
+                    echo "🚀 Delivery step executed"
                 '''
             }
         }
