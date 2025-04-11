@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'docker-agent-python' }
 
     environment {
         VENV_DIR = 'myapp/venv'
