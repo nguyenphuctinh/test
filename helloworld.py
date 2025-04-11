@@ -1,2 +1,2 @@
 
-print("Hello world nptinh")
+print("Hello world")
